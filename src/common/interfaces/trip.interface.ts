@@ -1,9 +1,12 @@
+import { TripTypology } from '@common/enums/trip-typology.enum'
+import { Airport } from '@common/types/airport'
+
 export interface Trip {
-  origin: string // IATA code
-  destination: string // IATA code
+  origin: Airport
+  destination: Airport
   cost: number
   duration: number
-  type: string // Restricted to options
+  type: TripTypology
   id: string // UUID v4
   display_name: string
 }
