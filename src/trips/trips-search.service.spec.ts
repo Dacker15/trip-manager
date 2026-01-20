@@ -5,11 +5,11 @@ import { SortStrategy } from '@common/enums/sorting-strategy.enum'
 import { TripTypology } from '@common/enums/trip-typology.enum'
 import { Trip } from '@common/interfaces/trip.interface'
 import { Airport } from '@common/types/airport'
-import { TripsService } from './trips.service'
+import { TripsSearchService } from './trips-search.service'
 
 /* eslint-disable @typescript-eslint/unbound-method */
-describe('TripsService', () => {
-  let service: TripsService
+describe('TripsSearchService', () => {
+  let service: TripsSearchService
   let tripsApiService: TripsApiService
 
   const ids = [
@@ -57,7 +57,7 @@ describe('TripsService', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        TripsService,
+        TripsSearchService,
         {
           provide: TripsApiService,
           useValue: mockTripsApiService,
@@ -65,7 +65,7 @@ describe('TripsService', () => {
       ],
     }).compile()
 
-    service = module.get<TripsService>(TripsService)
+    service = module.get<TripsSearchService>(TripsSearchService)
     tripsApiService = module.get<TripsApiService>(TripsApiService)
   })
 

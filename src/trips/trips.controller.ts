@@ -5,14 +5,14 @@ import {
   ApiTags,
   ApiInternalServerErrorResponse,
 } from '@nestjs/swagger'
-import { Trip } from '@trips/entities/trip.entity'
 import { FindManyTripsDto } from './dtos/find-many-trips.dto'
-import { TripsService } from './trips.service'
+import { Trip } from './entities/trip.entity'
+import { TripsSearchService } from './trips-search.service'
 
 @Controller('trips')
 @ApiTags('Trips')
 export class TripsController {
-  constructor(private readonly tripsService: TripsService) {}
+  constructor(private readonly tripsSearchService: TripsSearchService) {}
 
   @Get()
   @ApiOkResponse({ type: Trip, isArray: true })
@@ -21,7 +21,7 @@ export class TripsController {
   })
   @ApiInternalServerErrorResponse()
   findMany(@Query() params: FindManyTripsDto) {
-    return this.tripsService.findMany(
+    return this.tripsSearchService.findMany(
       params.origin,
       params.destination,
       params.sort_by,

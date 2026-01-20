@@ -16,8 +16,8 @@ const SORT_STRATEGY_KEY: Record<SortStrategy, keyof Trip> = {
 } as const
 
 @Injectable()
-export class TripsService {
-  private readonly logger = new Logger(TripsService.name)
+export class TripsSearchService {
+  private readonly logger = new Logger(TripsSearchService.name)
 
   constructor(private readonly tripsApiService: TripsApiService) {}
 
