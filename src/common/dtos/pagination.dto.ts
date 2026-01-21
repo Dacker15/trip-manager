@@ -6,6 +6,7 @@ export class PaginationDto {
   @ApiPropertyOptional({
     type: Number,
     description: 'Number of items to return',
+    default: 20,
   })
   @Transform(({ value }) => Number(value))
   @IsNumber()
@@ -15,6 +16,7 @@ export class PaginationDto {
   @ApiPropertyOptional({
     type: Number,
     description: 'Number of items to skip from beginning',
+    default: 0,
   })
   @Transform(({ value }) => Number(value))
   @IsNumber()
