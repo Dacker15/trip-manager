@@ -4,7 +4,7 @@ import {
   Logger,
 } from '@nestjs/common'
 import { AxiosError } from 'axios'
-import { TripsApiService } from '@apis/trips-api/trips-api.service'
+import { TripsApiService } from '@providers/trips-api/trips-api.service'
 
 @Injectable()
 export class TripsStorageService {

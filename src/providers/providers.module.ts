@@ -7,4 +7,4 @@ import { TripsApiService } from './trips-api/trips-api.service'
   providers: [TripsApiService],
   exports: [TripsApiService],
 })
-export class ApisModule {}
+export class ProvidersModule {}

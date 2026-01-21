@@ -5,10 +5,10 @@ import {
   Logger,
 } from '@nestjs/common'
 import { AxiosError } from 'axios'
-import { TripsApiService } from '@apis/trips-api/trips-api.service'
 import { SortStrategy } from '@common/enums/sorting-strategy.enum'
 import { Trip } from '@common/interfaces/trip.interface'
 import { Airport } from '@common/types/airport'
+import { TripsApiService } from '@providers/trips-api/trips-api.service'
 
 const SORT_STRATEGY_KEY: Record<SortStrategy, keyof Trip> = {
   [SortStrategy.CHEAPEST]: 'cost',

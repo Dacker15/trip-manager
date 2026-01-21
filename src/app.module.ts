@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
+import { ProvidersModule } from '@providers/providers.module'
 import { TripsModule } from '@trips/trips.module'
-import { ApisModule } from '@apis/apis.module'
 
 @Module({
-  imports: [ConfigModule.forRoot(), ApisModule, TripsModule],
+  imports: [ConfigModule.forRoot(), TripsModule, ProvidersModule],
   controllers: [],
   providers: [],
 })

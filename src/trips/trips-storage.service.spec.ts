@@ -1,9 +1,9 @@
 import { InternalServerErrorException, Logger } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { AxiosError } from 'axios'
-import { TripsApiService } from '@apis/trips-api/trips-api.service'
 import { TripTypology } from '@common/enums/trip-typology.enum'
 import { Trip } from '@common/interfaces/trip.interface'
+import { TripsApiService } from '@providers/trips-api/trips-api.service'
 import { TripsStorageService } from './trips-storage.service'
 
 /* eslint-disable @typescript-eslint/unbound-method */

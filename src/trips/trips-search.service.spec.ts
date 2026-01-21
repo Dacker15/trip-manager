@@ -1,10 +1,10 @@
 import { BadRequestException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
-import { TripsApiService } from '@apis/trips-api/trips-api.service'
 import { SortStrategy } from '@common/enums/sorting-strategy.enum'
 import { TripTypology } from '@common/enums/trip-typology.enum'
 import { Trip } from '@common/interfaces/trip.interface'
 import { Airport } from '@common/types/airport'
+import { TripsApiService } from '@providers/trips-api/trips-api.service'
 import { TripsSearchService } from './trips-search.service'
 
 /* eslint-disable @typescript-eslint/unbound-method */
