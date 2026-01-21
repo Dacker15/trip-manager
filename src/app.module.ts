@@ -19,6 +19,7 @@ import { TripsModule } from '@trips/trips.module'
         POSTGRES_USER: Joi.string().required(),
         POSTGRES_PASSWORD: Joi.string().required(),
         POSTGRES_DB: Joi.string().required(),
+        API_BASE_URL: Joi.string().uri().required(),
         API_KEY: Joi.string().required(),
         JWT_SECRET: Joi.string().required(),
         JWT_EXPIRES_IN: Joi.string().required(),

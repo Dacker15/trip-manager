@@ -8,12 +8,13 @@ export class TripsApiService {
   private readonly httpClientInstance: AxiosInstance
 
   constructor(private readonly configService: ConfigService) {
-    const apiKey = this.configService.get<string>('API_KEY')
+    const baseUrl = this.configService.getOrThrow<string>('API_BASE_URL')
+    const apiKey = this.configService.getOrThrow<string>('API_KEY')
     if (!apiKey) {
       throw new Error('API_KEY was not provided in configuration file')
     }
     this.httpClientInstance = axios.create({
-      baseURL: 'https://z0qw1e7jpd.execute-api.eu-west-1.amazonaws.com/default',
+      baseURL: baseUrl,
       headers: { 'x-api-key': apiKey },
     })
   }
