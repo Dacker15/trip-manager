@@ -6,8 +6,8 @@ import {
 import { InjectRepository } from '@nestjs/typeorm'
 import { AxiosError } from 'axios'
 import { Repository } from 'typeorm'
+import { SavedTrip } from '@providers/database/entities/saved-trip.entity'
 import { TripsApiService } from '@providers/trips-api/trips-api.service'
-import { SavedTrip } from './entities/saved-trip.entity'
 
 @Injectable()
 export class TripsStorageService {

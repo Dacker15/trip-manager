@@ -4,8 +4,8 @@ import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { TripTypology } from '@common/enums/trip-typology.enum'
 import { Trip } from '@common/interfaces/trip.interface'
+import { SavedTrip } from '@providers/database/entities/saved-trip.entity'
 import { TripsApiService } from '@providers/trips-api/trips-api.service'
-import { SavedTrip } from './entities/saved-trip.entity'
 import { TripsStorageService } from './trips-storage.service'
 
 /* eslint-disable @typescript-eslint/unbound-method */

@@ -6,7 +6,7 @@ import {
   JoinColumn,
   Index,
 } from 'typeorm'
-import { User } from '@users/entities/user.entity'
+import { User } from '@providers/database/entities/user.entity'
 
 @Entity('saved_trips')
 @Index(['tripId', 'userId'], { unique: true })

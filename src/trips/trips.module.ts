@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { SavedTrip } from '@providers/database/entities/saved-trip.entity'
 import { ProvidersModule } from '@providers/providers.module'
-import { SavedTrip } from '@trips/entities/saved-trip.entity'
 import { TripsSearchService } from './trips-search.service'
 import { TripsStorageService } from './trips-storage.service'
 import { TripsController } from './trips.controller'

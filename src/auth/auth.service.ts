@@ -11,7 +11,7 @@ import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
 import * as bcrypt from 'bcrypt'
 import { Repository } from 'typeorm'
-import { User } from '@users/entities/user.entity'
+import { User } from '@providers/database/entities/user.entity'
 import { AuthResponseDto } from './dtos/auth-response.dto'
 import { JwtPayload } from './interfaces/jwt-payload.interface'
 

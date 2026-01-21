@@ -93,8 +93,7 @@
     "moduleNameMapper": {
       "^@common/(.*)$": "<rootDir>/common/$1",
       "^@providers/(.*)$": "<rootDir>/providers/$1",
-      "^@trips/(.*)$": "<rootDir>/trips/$1",
-      "^@users/(.*)$": "<rootDir>/users/$1"
+      "^@trips/(.*)$": "<rootDir>/trips/$1"
     }
   }
 }
