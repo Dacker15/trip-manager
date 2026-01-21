@@ -24,7 +24,8 @@
     "paths": {
       "@common/*": ["src/common/*"],
       "@providers/*": ["src/providers/*"],
-      "@trips/*": ["src/trips/*"]
+      "@trips/*": ["src/trips/*"],
+      "@users/*": ["src/users/*"]
     }
   }
 }
