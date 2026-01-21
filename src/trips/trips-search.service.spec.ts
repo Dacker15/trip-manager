@@ -8,6 +8,7 @@ import { Airport } from '@common/types/airport'
 import { TripsSearchService } from './trips-search.service'
 
 /* eslint-disable @typescript-eslint/unbound-method */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 describe('TripsSearchService', () => {
   let service: TripsSearchService
   let tripsApiService: TripsApiService
