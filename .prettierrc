@@ -2,7 +2,7 @@
   "semi": false,
   "singleQuote": true,
   "trailingComma": "all",
-  "importOrder": ["<BUILTIN_MODULES>","^@nestjs/(.*)$", "<THIRD_PARTY_MODULES>", "^@common/(.*)$", "^@providers/(.*)$", "^@trips/(.*)$", "^@users/(.*)$", "^[./]"],
+  "importOrder": ["<BUILTIN_MODULES>","^@nestjs/(.*)$", "<THIRD_PARTY_MODULES>", "^@auth/(.*)$", "^@common/(.*)$", "^@providers/(.*)$", "^@trips/(.*)$", "^@users/(.*)$", "^[./]"],
   "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrderParserPlugins": [ "typescript", "classProperties", "decorators-legacy"]
 }

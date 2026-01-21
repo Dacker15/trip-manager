@@ -22,6 +22,7 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@auth/*": ["src/auth/*"],
       "@common/*": ["src/common/*"],
       "@providers/*": ["src/providers/*"],
       "@trips/*": ["src/trips/*"],

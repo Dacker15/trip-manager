@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { AuthModule } from '@auth/auth.module'
 import { getTypeOrmConfig } from '@providers/database/typeorm.config'
 import { ProvidersModule } from '@providers/providers.module'
 import { TripsModule } from '@trips/trips.module'
@@ -17,6 +18,7 @@ import { UsersModule } from '@users/user.module'
     TripsModule,
     ProvidersModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
