@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common'
+import { Logger, NotFoundException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
@@ -218,6 +218,15 @@ describe('TripsStorageService', () => {
       })
       expect(savedTripRepository.save).not.toHaveBeenCalled()
       expect(result).toBe(false)
+    })
+
+    it('should throw NotFoundException when trip does not exist in external API', async () => {
+      mockSavedTripRepository.findOne.mockResolvedValue(null)
+      mockTripsApiService.findOne.mockRejectedValue(new Error('Trip not found'))
+
+      await expect(service.save(mockTripId, mockUserId)).rejects.toThrow(
+        NotFoundException,
+      )
     })
   })
 

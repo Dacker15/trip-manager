@@ -17,6 +17,7 @@ import {
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiParam,
+  ApiNotFoundResponse,
 } from '@nestjs/swagger'
 import { type Response } from 'express'
 import { UseAuth } from '@auth/auth.decorator'
@@ -66,6 +67,7 @@ export class TripsController {
   @ApiCreatedResponse({ description: 'Trip saved successfully' })
   @ApiNoContentResponse({ description: 'Trip already exists' })
   @ApiBadRequestResponse({ description: 'tripId must be a valid UUID v4' })
+  @ApiNotFoundResponse({ description: 'Trip not found in external API' })
   @ApiInternalServerErrorResponse()
   async save(
     @Body() body: SaveTripDto,

@@ -2,6 +2,7 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
+  NotFoundException,
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { AxiosError } from 'axios'
@@ -57,14 +58,24 @@ export class TripsStorageService {
   }
 
   async save(tripId: string, userId: number) {
+    // Check if the trip is already saved
     const existingSavedTrip = await this.savedTripRepository.findOne({
       where: { tripId: tripId, userId: userId },
       select: ['id'],
     })
-
     if (existingSavedTrip !== null) {
       return false
     }
+
+    // Verify that the trip exists in the external API
+    try {
+      await this.tripsApiService.findOne(tripId)
+    } catch (_error) {
+      const error = _error as AxiosError<{ msg: string }>
+      throw new NotFoundException(error.response?.data.msg)
+    }
+
+    // Save the trip
     await this.savedTripRepository.save({
       tripId,
       userId,
