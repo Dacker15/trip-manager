@@ -20,7 +20,10 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
 
   // Swagger Configuration
-  const config = new DocumentBuilder().setTitle('Trip Manager').build()
+  const config = new DocumentBuilder()
+    .setTitle('Trip Manager')
+    .addBearerAuth()
+    .build()
   const documentFactory = () => SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('docs', app, documentFactory)
 

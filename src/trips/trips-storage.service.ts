@@ -3,21 +3,31 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
 import { AxiosError } from 'axios'
+import { Repository } from 'typeorm'
 import { TripsApiService } from '@providers/trips-api/trips-api.service'
+import { SavedTrip } from './entities/saved-trip.entity'
 
 @Injectable()
 export class TripsStorageService {
-  // Simulated in-memory storage for trips identifiers
-  private trips: string[] = []
-
   private readonly logger = new Logger(TripsStorageService.name)
 
-  constructor(private tripsApiService: TripsApiService) {}
+  constructor(
+    @InjectRepository(SavedTrip)
+    private savedTripRepository: Repository<SavedTrip>,
+    private tripsApiService: TripsApiService,
+  ) {}
 
-  async findAll(take: number, skip: number) {
-    const tripIds = this.trips.slice(skip, skip + take)
-    const promises = tripIds.map((tripId) =>
+  async findAll(take: number, skip: number, loggedUserId: number) {
+    const savedTrips = await this.savedTripRepository.find({
+      where: { userId: loggedUserId },
+      take: take,
+      skip: skip,
+    })
+    const tripsIds = savedTrips.map((savedTrip) => savedTrip.tripId)
+
+    const promises = tripsIds.map((tripId) =>
       this.tripsApiService.findOne(tripId),
     )
     try {
@@ -28,7 +38,7 @@ export class TripsStorageService {
 
       // Log warning for failed requests
       if (successfulResponses.length !== promises.length) {
-        const failedTripIds = tripIds.filter((_, index) => {
+        const failedTripIds = tripsIds.filter((_, index) => {
           return responses[index].status === 'rejected'
         })
         this.logger.warn(
@@ -46,20 +56,33 @@ export class TripsStorageService {
     }
   }
 
-  save(tripId: string) {
-    if (!this.trips.includes(tripId)) {
-      this.trips.push(tripId)
-      return true
+  async save(tripId: string, userId: number) {
+    const existingSavedTrip = await this.savedTripRepository.findOne({
+      where: { tripId: tripId, userId: userId },
+      select: ['id'],
+    })
+
+    if (existingSavedTrip !== null) {
+      return false
     }
-    return false
+    await this.savedTripRepository.save({
+      tripId,
+      userId,
+    })
+    return true
   }
 
-  delete(tripId: string) {
-    const index = this.trips.indexOf(tripId)
-    if (index !== -1) {
-      this.trips.splice(index, 1)
-      return true
+  async delete(tripId: string, userId: number) {
+    const existingSavedTrip = await this.savedTripRepository.findOne({
+      where: { tripId: tripId, userId: userId },
+      select: ['id'],
+    })
+
+    if (existingSavedTrip === null) {
+      return false
     }
-    return false
+
+    await this.savedTripRepository.delete({ tripId: tripId, userId: userId })
+    return true
   }
 }

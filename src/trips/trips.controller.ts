@@ -19,6 +19,8 @@ import {
   ApiParam,
 } from '@nestjs/swagger'
 import { type Response } from 'express'
+import { UseAuth } from '@auth/auth.decorator'
+import { LoggedUser } from '@auth/logged-user.decorator'
 import { FindAllTripsDto } from './dtos/find-all-trips.dto'
 import { FindManyTripsDto } from './dtos/find-many-trips.dto'
 import { SaveTripDto } from './dtos/save-trip.dto'
@@ -49,21 +51,28 @@ export class TripsController {
   }
 
   @Get()
+  @UseAuth()
   @ApiOkResponse({ type: Trip, isArray: true })
   @ApiBadRequestResponse({
     description: 'take and skip must be non-negative numbers',
   })
   @ApiInternalServerErrorResponse()
-  findAll(@Query() params: FindAllTripsDto) {
-    return this.tripsStorageService.findAll(params.take, params.skip)
+  findAll(@Query() params: FindAllTripsDto, @LoggedUser() userId: number) {
+    return this.tripsStorageService.findAll(params.take, params.skip, userId)
   }
 
   @Post()
+  @UseAuth()
   @ApiCreatedResponse({ description: 'Trip saved successfully' })
   @ApiNoContentResponse({ description: 'Trip already exists' })
   @ApiBadRequestResponse({ description: 'tripId must be a valid UUID v4' })
-  save(@Body() body: SaveTripDto, @Res() response: Response) {
-    const isNew = this.tripsStorageService.save(body.tripId)
+  @ApiInternalServerErrorResponse()
+  async save(
+    @Body() body: SaveTripDto,
+    @LoggedUser() userId: number,
+    @Res() response: Response,
+  ) {
+    const isNew = await this.tripsStorageService.save(body.tripId, userId)
     if (isNew) {
       return response.status(201).send()
     }
@@ -71,15 +80,18 @@ export class TripsController {
   }
 
   @Delete(':tripId')
+  @UseAuth()
   @ApiParam({ name: 'tripId', type: 'string', format: 'uuid' })
   @ApiOkResponse({ description: 'Trip deleted successfully' })
   @ApiNoContentResponse({ description: 'Trip not found' })
   @ApiBadRequestResponse({ description: 'tripId must be a valid UUID v4' })
-  delete(
+  @ApiInternalServerErrorResponse()
+  async delete(
     @Param('tripId', new ParseUUIDPipe({ version: '4' })) tripId: string,
+    @LoggedUser() userId: number,
     @Res() response: Response,
   ) {
-    const isDeleted = this.tripsStorageService.delete(tripId)
+    const isDeleted = await this.tripsStorageService.delete(tripId, userId)
     if (isDeleted) {
       return response.status(200).send()
     }
