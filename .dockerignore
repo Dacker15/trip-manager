@@ -4,6 +4,11 @@ npm-debug.log
 pnpm-debug.log
 yarn-error.log
 
+# Environment files with examples
+.env
+.env.*
+.env.*.example
+
 # Build artifacts
 dist
 build
@@ -14,9 +19,6 @@ coverage
 *.spec.ts
 test
 .nyc_output
-
-# Example config files
-.env.*.example
 
 # Git
 .git

@@ -1,0 +1,20 @@
+version: '3.8'
+
+networks:
+  trip-manager-network:
+
+services:
+  trip-manager:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NODE_VERSION: 22
+    container_name: trip-manager
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    networks:
+      - trip-manager-network
