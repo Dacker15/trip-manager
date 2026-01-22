@@ -23,7 +23,7 @@ services:
       dockerfile: Dockerfile
       args:
         NODE_VERSION: 22
-    container_name: trip-manager
+    container_name: trip-manager-server
     restart: unless-stopped
     ports:
       - "3000:3000"

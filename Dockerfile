@@ -14,9 +14,6 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 
 RUN pnpm run build
-
-RUN pnpm prune --prod --ignore-scripts
-
 # Stage 2: Production
 FROM node:${NODE_VERSION}-alpine AS production
 
@@ -29,6 +26,8 @@ WORKDIR /app
 COPY --from=builder --chown=nestjs:nodejs /app/dist ./dist
 COPY --from=builder --chown=nestjs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nestjs:nodejs /app/package.json ./package.json
+COPY --from=builder --chown=nestjs:nodejs /app/typeorm ./typeorm
+COPY --from=builder --chown=nestjs:nodejs /app/tsconfig.json ./tsconfig.json
 
 USER nestjs
 
@@ -36,4 +35,4 @@ EXPOSE 3000
 
 ENV NODE_ENV=production
 
-CMD ["node", "dist/main.js"]
+CMD ["sh", "-c", "pnpm run migration:run:prod && node dist/src/main.js"]
