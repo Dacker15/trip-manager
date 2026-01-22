@@ -15,44 +15,76 @@ A NestJS-based RESTful API for managing and searching trips between different ai
 ```
 trip-manager/
 ├── src/
-│   ├── apis/                   # External API integrations
-│   │   ├── apis.module.ts
-│   │   └── trips-api/           # Trips API service
-│   │       └── trips-api.service.ts
-│   ├── common/                 # Shared resources
-│   │   ├── airports/            # Airport datas
+│   ├── auth/                      # Authentication module
+│   │   ├── dtos/
+│   │   │   ├── auth-response.dto.ts
+│   │   │   ├── login.dto.ts
+│   │   │   ├── refresh-token.dto.ts
+│   │   │   └── sign-up.dto.ts
+│   │   ├── guards/
+│   │   │   └── jwt-auth.guard.ts
+│   │   ├── interfaces/
+│   │   │   └── jwt-payload.interface.ts
+│   │   ├── strategies/
+│   │   │   └── jwt.strategy.ts
+│   │   ├── auth.controller.ts
+│   │   ├── auth.decorator.ts
+│   │   ├── auth.module.ts
+│   │   ├── auth.service.ts
+│   │   ├── auth.service.spec.ts
+│   │   └── logged-user.decorator.ts
+│   ├── common/                    # Shared resources
+│   │   ├── airports/
 │   │   │   └── available.ts
-│   │   ├── dtos/                # Common DTOs
+│   │   ├── dtos/
 │   │   │   └── pagination.dto.ts
-│   │   ├── enums/               # Enumerations
+│   │   ├── enums/
 │   │   │   ├── sorting-strategy.enum.ts
 │   │   │   └── trip-typology.enum.ts
-│   │   ├── interfaces/          # TypeScript interfaces
-│   │   │   └── trip.interface.ts
-│   │   └── types/              # Type definitions
+│   │   ├── interfaces/
+│   │   │   ├── trip.interface.ts
+│   │   │   └── user.interface.ts
+│   │   └── types/
 │   │       └── airport.ts
-│   ├── trips/                  # Trips module
-│   │   ├── dtos/                # Trip DTOs
+│   ├── providers/                 # Infrastructure providers
+│   │   ├── database/
+│   │   │   ├── entities/
+│   │   │   │   ├── index.ts
+│   │   │   │   ├── saved-trip.entity.ts
+│   │   │   │   └── user.entity.ts
+│   │   │   └── typeorm.config.ts
+│   │   ├── trips-api/
+│   │   │   └── trips-api.service.ts
+│   │   └── providers.module.ts
+│   ├── trips/                     # Trips module
+│   │   ├── dtos/
 │   │   │   ├── find-all-trips.dto.ts
 │   │   │   ├── find-many-trips.dto.ts
 │   │   │   └── save-trip.dto.ts
-│   │   ├── entities/             # Trip entities
+│   │   ├── entities/
 │   │   │   └── trip.entity.ts
-│   │   ├── trips.controller.ts  # REST controller
-│   │   ├── trips.module.ts      # Module definition
-│   │   ├── trips-search.service.ts  # Search logic
-│   │   ├── trips-storage.service.ts # Storage logic
-│   │   └── *.spec.ts            # Unit tests
-│   ├── app.module.ts            # Root module
-│   └── main.ts                  # Application entry point
-├── Dockerfile                  # Docker configuration
-├── package.json                # Dependencies and scripts
-├── pnpm-lock.yaml              # Lock file
-├── tsconfig.json               # TypeScript configuration
-├── nest-cli.json               # NestJS CLI configuration
-├── eslint.config.mjs           # ESLint configuration
-├── .env.example                # Example environment variables
-└── .prettierrc                 # Prettier configuration
+│   │   ├── trips.controller.ts
+│   │   ├── trips.module.ts
+│   │   ├── trips-search.service.ts
+│   │   ├── trips-search.service.spec.ts
+│   │   ├── trips-storage.service.ts
+│   │   └── trips-storage.service.spec.ts
+│   ├── app.module.ts              # Root module
+│   └── main.ts                    # Application entry point
+├── typeorm/                       # TypeORM CLI
+│   ├── migrations/
+│   │   └── 1769032257368-first-migration.ts
+│   └── typeorm.cli.ts
+├── docker-compose.yml             # Docker Compose configuration
+├── Dockerfile                     # Docker image definition
+├── package.json                   # Dependencies and scripts
+├── pnpm-lock.yaml                 # Lock file
+├── pnpm-workspace.yaml            # PNPM workspace configuration
+├── tsconfig.json                  # TypeScript configuration
+├── tsconfig.build.json            # TypeScript build configuration
+├── nest-cli.json                  # NestJS CLI configuration
+├── eslint.config.mjs              # ESLint configuration
+└── README.md                      # Project documentation
 ```
 
 ## Prerequisites
@@ -86,7 +118,20 @@ Create a `.env` file in the root directory based on the provided `.env.example`
 cp .env.example .env
 ```
 
-### 4. Run the Application in development mode
+### 4. Database Setup
+
+Ensure you have a PostgreSQL database running. You can use Docker to quickly set up a PostgreSQL instance:
+
+```bash
+docker run --name trip-manager-db -v ./postgres-data:/var/lib/postgresql/data --env-file .env -p 5432:5432 -d postgres:18-alpine
+```
+### 5. Run Database Migrations
+
+```bash
+pnpm run migration:run
+```
+
+### 5. Run the Application in development mode
 ```bash
 pnpm run start:dev
 ```
@@ -101,16 +146,10 @@ Create a `.env` file in the root directory based on the provided `.env.example`
 cp .env.example .env
 ```
 
-### 2. Build the Docker Image
+### 2. Build with Docker Compose
 
 ```bash
-docker build -t trip-manager:latest .
-```
-
-### 3. Run the Docker Container
-
-```bash
-docker run -d -p 3000:3000 trip-manager:latest
+docker compose up -d
 ```
 
 ## API Documentation
